@@ -26,7 +26,7 @@ docker cp $CONTAINER_ID:zap/result.xml ./
 
 echo "ELK stack"
 until curl esurl  ; do echo "Waiting for Elastic Search"; sleep 2; done
-
+mkdir zap1
 cp result.json zap1/ && cd  zap1
 echo "parse result.json - add indices"
 cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST esurl/_bulk --data-binary @-
