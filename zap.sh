@@ -25,15 +25,15 @@ docker cp $CONTAINER_ID:zap/result.html ./
 docker cp $CONTAINER_ID:zap/result.xml ./
 
 echo "ELK stack"
-until curl qaopselasticsearch.engazewell.com  ; do echo "Waiting for Elastic Search"; sleep 2; done
+until curl esurl  ; do echo "Waiting for Elastic Search"; sleep 2; done
 
 cp result.json zap/ && cd  zap
 echo "parse result.json - add indices"
-cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com/_bulk --data-binary @-
+cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST esurl/_bulk --data-binary @-
 
 #cat output.json | jq -c '.[] | {"index": {"_index": "bookmarks", "_type": "bookmark", "_id": .id}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com
-docker commit $CONTAINER_ID  sandeepalguri/zapscript
-docker push sandeepalguri/zapscript
+docker commit $CONTAINER_ID  dockerimage
+docker push dockerimage
 docker stop $CONTAINER_ID
 
 docker rm -f $CONTAINER_ID
