@@ -14,26 +14,26 @@ docker exec $CONTAINER_ID zap-cli -p 2375 active-scan --recursive $TARGET_URL
 
 docker exec $CONTAINER_ID zap-cli -p 2375 alerts -l Informational
 
-docker exec $CONTAINER_ID zap-cli -p 2375 alerts -f json -l Informational >> output.json
+docker exec $CONTAINER_ID zap-cli -p 2375 alerts -f json -l Informational >> result.json
 
-docker exec $CONTAINER_ID zap-cli -p 2375 report -o output.html -f html
+docker exec $CONTAINER_ID zap-cli -p 2375 report -o result.html -f html
 
-docker exec $CONTAINER_ID zap-cli -p 2375 report -o output.xml -f xml
+docker exec $CONTAINER_ID zap-cli -p 2375 report -o result.xml -f xml
 
-docker cp $CONTAINER_ID:zap/output.html ./
+docker cp $CONTAINER_ID:zap/result.html ./
 
-docker cp $CONTAINER_ID:zap/output.xml ./
+docker cp $CONTAINER_ID:zap/result.xml ./
 
 echo "ELK stack"
 until curl qaopselasticsearch.engazewell.com  ; do echo "Waiting for Elastic Search"; sleep 2; done
 
-cp output.json zap/ && cd  zap
-echo "parse output2.json - add indices"
-cat output.json | jq -c '.[] | {"index": {"_index": "zap4", "_type": "zap4", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com/_bulk --data-binary @-
+cp result.json zap/ && cd  zap
+echo "parse result.json - add indices"
+cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com/_bulk --data-binary @-
 
 #cat output.json | jq -c '.[] | {"index": {"_index": "bookmarks", "_type": "bookmark", "_id": .id}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com
-#docker commit $CONTAINER_ID  sandeepalguri/zapscript
-#docker push sandeepalguri/zapscript
+docker commit $CONTAINER_ID  sandeepalguri/zapscript
+docker push sandeepalguri/zapscript
 docker stop $CONTAINER_ID
 
 docker rm -f $CONTAINER_ID
