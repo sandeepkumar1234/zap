@@ -4,7 +4,7 @@ CONTAINER_ID=$(docker run -u zap -p 2375:2375 -d owasp/zap2docker-stable zap.sh 
 
 # the target URL for ZAP to scan
 # the target URL for ZAP to scan
-TARGET_URL=$1
+TARGET_URL=targeturl
 docker exec $CONTAINER_ID zap-cli -p 2375 status -t 120 && docker exec $CONTAINER_ID zap-cli -p 2375 open-url $TARGET_URL
 
 
