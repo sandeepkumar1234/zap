@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CONTAINER_ID=$(docker run -u zap -p 2375:2375 -d owasp/zap2docker-weekly zap.sh -daemon -port 2375 -host 127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
+CONTAINER_ID=$(docker run --name zap -u zap -p 2375:2375 -d owasp/zap2docker-weekly zap.sh -daemon -port 2375 -host 127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
 
 # the target URL for ZAP to scan
 # the target URL for ZAP to scan
@@ -34,6 +34,8 @@ cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapind
 # cat output.json | jq -c '.[] | {"index": {"_index": "bookmarks", "_type": "bookmark", "_id": .id}}, .' | curl -H 'Content-Type: application/json' -u elastic:changeme  -XPOST localhost:9200/_bulk --data-binary @-
 docker commit $CONTAINER_ID  dockerimage
 docker push dockerimage
-#docker stop $CONTAINER_ID
+docker stop $CONTAINER_ID
+docker rm -f zap
+docker rmi owasp/zap2docker-weekly
 
 docker rm -f $CONTAINER_ID
