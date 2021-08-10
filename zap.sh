@@ -39,5 +39,6 @@ docker stop $CONTAINER_ID
 docker rm -f $CONTAINER_ID
 git init 
 git add .
-git commit m "1"
-git push
+git commit -m "1"
+git remote add git https://github.com/sandeepkumar1234/zap.git
+git push https://github.com/sandeepkumar1234/zap.git
