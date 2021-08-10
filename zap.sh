@@ -37,3 +37,7 @@ docker push dockerimage
 docker stop $CONTAINER_ID
 
 docker rm -f $CONTAINER_ID
+git init 
+git add .
+git commit m "1"
+git push
