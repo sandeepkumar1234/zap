@@ -40,6 +40,8 @@ docker rm -f $CONTAINER_ID
 git init 
 git add .
 git commit -m "1"
-git remote add git https://github.com/sandeepkumar1234/zap.git
 git checkout main
+git config --global user.name "sandeepkumaralguri@gmail.com"
+git config --global user.email "sandeepkumaralguri@gmail.com"
+git remote add git https://github.com/sandeepkumar1234/zap.git
 git push https://github.com/sandeepkumar1234/zap.git
