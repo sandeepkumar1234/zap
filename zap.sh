@@ -34,8 +34,8 @@ cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapind
 # cat output.json | jq -c '.[] | {"index": {"_index": "bookmarks", "_type": "bookmark", "_id": .id}}, .' | curl -H 'Content-Type: application/json' -u elastic:changeme  -XPOST localhost:9200/_bulk --data-binary @-
 docker commit $CONTAINER_ID  dockerimage
 docker push dockerimage
-docker stop $CONTAINER_ID
+#docker stop $CONTAINER_ID
 docker rm -f zap
-docker rmi owasp/zap2docker-weekly
+#docker rmi owasp/zap2docker-weekly
 
-docker rm -f $CONTAINER_ID
+#docker rm -f $CONTAINER_ID
