@@ -29,7 +29,7 @@ until curl esurl  ; do echo "Waiting for Elastic Search"; sleep 2; done
 #mkdir zap1
 cp result.json zap1/ && cd  zap1
 echo "parse result.json - add indices"
-cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex", "_testplanid": "sandeep"}}, .' | curl -H 'Content-Type: application/json'   -XPOST esurl/_bulk --data-binary @-
+cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex", "_test.planId": "sandeep"}}, .' | curl -H 'Content-Type: application/json'   -XPOST esurl/_bulk --data-binary @-
 # cat output.json | jq -c '.[] | {"index": {"_index": "zap7", "_type": "zap7", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com/_bulk --data-binary @-
 # cat output.json | jq -c '.[] | {"index": {"_index": "bookmarks", "_type": "bookmark", "_id": .id}}, .' | curl -H 'Content-Type: application/json' -u elastic:changeme  -XPOST localhost:9200/_bulk --data-binary @-
 docker commit $CONTAINER_ID  dockerimage
