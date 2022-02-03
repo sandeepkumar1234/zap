@@ -34,8 +34,8 @@ echo "parse result.json - add indices"
 cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex",  "_id": "_id" }},  .' | curl -H 'Content-Type: application/json'   -XPOST esurl/_bulk --data-binary @-
 # cat output.json | jq -c '.[] | {"index": {"_index": "zap7", "_type": "zap7", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com/_bulk --data-binary @-
 # cat output.json | jq -c '.[] | {"index": {"_index": "bookmarks", "_type": "bookmark", "_id": .id}}, .' | curl -H 'Content-Type: application/json' -u elastic:changeme  -XPOST localhost:9200/_bulk --data-binary @-
-docker commit $CONTAINER_ID  dockerimage
-docker push dockerimage
+#docker commit $CONTAINER_ID  dockerimage
+#docker push dockerimage
 #docker stop $CONTAINER_ID
 docker rm -f zap
 #docker rmi owasp/zap2docker-weekly
