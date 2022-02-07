@@ -40,4 +40,4 @@ cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapind
 docker rm -f zapcontainer
 #docker rmi owasp/zap2docker-weekly
 
-#docker rm -f $CONTAINER_ID
+docker rm -f $CONTAINER_ID
