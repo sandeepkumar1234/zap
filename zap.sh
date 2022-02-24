@@ -12,7 +12,7 @@ docker exec $CONTAINER_ID zap-cli -p 2375 spider $TARGET_URL
 
 docker exec $CONTAINER_ID zap-cli -p 2375 active-scan --recursive $TARGET_URL
 
-docker exec $CONTAINER_ID zap-cli -p 2375 Full-scan --recursive $TARGET_URL
+#docker exec $CONTAINER_ID zap-cli -p 2375 Full-scan --recursive $TARGET_URL
 
 docker exec $CONTAINER_ID zap-cli -p 2375 alerts -l Informational
 
@@ -29,7 +29,7 @@ docker cp $CONTAINER_ID:zap/result.xml ./
 echo "ELK stack"
 until curl esurl  ; do echo "Waiting for Elastic Search"; sleep 2; done
 #mkdir zap1
-cp result.json zap1/ && cd  zap1
+#cp result.json zap1/ && cd  zap1
 echo "parse result.json - add indices"
 cat result.json | jq -c '.[] | {"index": {"_index": "zapindex", "_type": "zapindex",  "_id": "_id" }},  .' | curl -H 'Content-Type: application/json'   -XPOST esurl/_bulk --data-binary @-
 # cat output.json | jq -c '.[] | {"index": {"_index": "zap7", "_type": "zap7", "_id": "_id"}}, .' | curl -H 'Content-Type: application/json'   -XPOST qaopselasticsearch.engazewell.com/_bulk --data-binary @-
