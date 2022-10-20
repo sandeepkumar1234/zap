@@ -37,7 +37,7 @@ docker cp $CONTAINER_ID:zap/result.xml ./
 #docker commit $CONTAINER_ID  dockerimage
 #docker push dockerimage
 #docker stop $CONTAINER_ID
-docker rm -f zapcontainer
+#docker rm -f zapcontainer
 #docker rmi owasp/zap2docker-weekly
 
 #docker rm -f $CONTAINER_ID
