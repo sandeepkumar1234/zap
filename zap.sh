@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-CONTAINER_ID=$(docker run --name zapcontainer -u zap -P -d owasp/zap2docker-stable zap.sh -daemon -port 2375 -host 127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
+CONTAINER_ID=$(docker run --name zapcontainer -u zap -P -d owasp/zap2docker-stable zap-cli quick-scan -l Informational -s all --self-contained --start-options '-config api.disablekey=true'  -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
 #docker run -i owasp/zap2docker-stable zap-cli quick-scan -l Informational -s all --self-contained --start-options '-config api.disablekey=true' https://www.leankoala.com
 # owasp/zap2docker-weekly
 # the target URL for ZAP to scan
 # the target URL for ZAP to scan
+#CONTAINER_ID=$(docker run --name zapcontainer -u zap -P -d owasp/zap2docker-stable zap.sh -daemon -port 2375 -host 127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
 TARGET_URL=targeturl
 docker exec $CONTAINER_ID zap-cli -p 2375 status -t 120 && docker exec $CONTAINER_ID zap-cli -p 2375 open-url $TARGET_URL
 
