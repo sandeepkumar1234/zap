@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-CONTAINER_ID=$(docker run --name zapcontainer -u zap -P -d owasp/zap2docker-weekly:w2022-09-13 zap.sh -daemon -port 2375 -host  127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
+CONTAINER_ID=$(docker run --name zapcontainer -u zap -P -d sandeepalguri/zapscript zap.sh -daemon -port 2375 -host  127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true)
 
 # the target URL for ZAP to scan
 # the target URL for ZAP to scan
+# owasp/zap2docker-weekly:w2022-09-13
 TARGET_URL=targeturl
 docker exec $CONTAINER_ID zap-cli -p 2375 status -t 120 && docker exec $CONTAINER_ID zap-cli -p 2375 open-url $TARGET_URL
 
